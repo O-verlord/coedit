@@ -12,11 +12,12 @@ app.post('/run', async(req, res)=>{
     const { language = "cpp", code } = req.body;
     
     if(code===undefined){return res.status(400).json({success:false, error:"Empty code body!"})};
-    console.log(req.body);
-    
+
+    try{
     const filepath =  await generatecode(language,code);
     const output = await execpp(filepath);
     return res.json({ filepath, output});
+    }catch(err){res.status(500).json({err})}
 });
 
 app.get('/',async(req, res)=>{
