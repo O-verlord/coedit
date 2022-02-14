@@ -13,14 +13,10 @@ const execpp = (filepath)=>{
     outpath = path.join(outputpath, `${jobid}.out`);
     return new Promise((resolve, reject)=>{
         exec(`g++ ${filepath} -o ${outpath} && cd ${outputpath} && ./${jobid}.out`,
-                (error, stdout, stderr)=>{
-                    if(error){
-                        reject({error, stderr});;
-                    }
-                    if(stderr){
-                        reject(stderr);
-                    }
-                    resolve(stdout);
+        (error, stdout, stderr) => {
+            error && reject({ error, stderr });
+            stderr && reject(stderr);
+            resolve(stdout);
                 });
     });
 };
