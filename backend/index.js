@@ -1,5 +1,6 @@
 const express = require('express');
 const {generatecode} = require("./generatecode")
+const {execpp} = require("./execpp")
 
 const app = express();
 
@@ -14,7 +15,8 @@ app.post('/run', async(req, res)=>{
     console.log(req.body);
     
     const filepath =  await generatecode(language,code);
-    return res.json({ filepath });
+    const output = await execpp(filepath);
+    return res.json({ filepath, output});
 });
 
 app.get('/',async(req, res)=>{
