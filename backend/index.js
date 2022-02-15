@@ -1,12 +1,14 @@
 const express = require('express');
-const {generatecode} = require("./generatecode")
-const {execpp} = require("./execpp")
+const {generatecode} = require("./generatecode");
+const {execpp} = require("./execpp");
+const cors = require("cors");
 
 const app = express();
 
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(cors());
 app.post('/run', async(req, res)=>{
     
     const { language = "cpp", code } = req.body;
