@@ -3,14 +3,15 @@ import axios from 'axios'
 
 function App() {
   const [code, setCode]=useState('');
+  const [output, setOutput]=useState('');
   const handleSubmit = async()=>{
     console.log(code);
     const payload = {
-      laanguage:"cpp",
+      language:"cpp",
       code
     }
     
-      const output = await axios.post('http://localhost:5000/run', payload).catch(function(error){
+      const {data} = await axios.post('http://localhost:5000/run', payload).catch(function(error){
         if (error.response){
           console.log(error.response.data);
           console.log(error.status);
@@ -20,7 +21,10 @@ function App() {
           console.log('Error', error.message);
         }
       });
-      console.log(output)
+      try {
+      setOutput(data.output);
+      } catch(err){console.log(err)}
+      console.log(data);
   
   }
   return (
@@ -29,6 +33,7 @@ function App() {
     <textarea rows="20" cols="70" value={code} onChange={(e)=>{setCode(e.target.value);}}></textarea>
     <br/>
     <button onClick={handleSubmit}>Submit</button>
+    <p>{output}</p>
     </div>
   );
 }
